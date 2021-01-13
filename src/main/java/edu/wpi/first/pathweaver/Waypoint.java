@@ -10,6 +10,9 @@ import javafx.beans.property.StringProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
+import edu.wpi.first.pathweaver.spline.Spline;
+import edu.wpi.first.pathweaver.ProjectPreferences;
 
 import javax.measure.Unit;
 import javax.measure.quantity.Length;
@@ -34,6 +37,7 @@ public class Waypoint {
 	private final BooleanProperty reversed = new SimpleBooleanProperty();
 	private final StringProperty name = new SimpleStringProperty("");
 
+  private final Rectangle robotOutline;
 	private final Line tangentLine;
 	private final Polygon icon;
 
@@ -66,6 +70,22 @@ public class Waypoint {
 
 		//Convert from WPILib to JavaFX coords
 		tangentLine.endYProperty().bind(Bindings.createObjectBinding(() -> -getTangentY() + -getY(), tangentY, y));
+
+    ProjectPreferences.Values values = ProjectPreferences.getInstance().getValues();
+    double robotWidth = values.getRobotWidth();
+    double robotLength = values.getRobotLength();
+
+    robotOutline = new Rectangle();
+    robotOutline.getStyleClass().add("robotOutline");
+    robotOutline.setHeight(robotWidth);
+    robotOutline.setWidth(robotLength);
+		//Convert from WPILib to JavaFX coords
+    robotOutline.xProperty().bind(x.subtract(robotLength / 2));
+    robotOutline.yProperty().bind(y.negate().subtract(robotWidth / 2));
+    robotOutline.rotateProperty()
+				.bind(Bindings.createObjectBinding(
+						() -> getTangent() == null ? 0.0 : Math.toDegrees(Math.atan2(-getTangentY(), getTangentX())),
+						tangentX, tangentY));
 	}
 
 	public void enableSubchildSelector(int i) {
@@ -128,6 +148,10 @@ public class Waypoint {
 	public Line getTangentLine() {
 		return tangentLine;
 	}
+
+  public Rectangle getRobotOutline() {
+    return robotOutline;
+  }
 
 	public Point2D getTangent() {
 		return new Point2D(tangentX.get(), tangentY.get());

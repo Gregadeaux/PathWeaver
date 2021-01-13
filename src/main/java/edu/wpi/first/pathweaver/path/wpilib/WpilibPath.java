@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 public class WpilibPath extends Path {
     private final Group iconGroup = new Group();
     private final Group tangentGroup = new Group();
+    private final Group outlineGroup = new Group();
 
     /**
      * Path constructor based on a known list of points.
@@ -40,6 +41,7 @@ public class WpilibPath extends Path {
                     setupWaypoint(wp);
                     iconGroup.getChildren().add(wp.getIcon());
                     tangentGroup.getChildren().add(wp.getTangentLine());
+                    outlineGroup.getChildren().add(wp.getRobotOutline());
                     if (wp != first) {
                         wp.reversedProperty().bindBidirectional(first.reversedProperty());
                     }
@@ -52,12 +54,13 @@ public class WpilibPath extends Path {
                 for (Waypoint wp : c.getRemoved()) {
                     iconGroup.getChildren().remove(wp.getIcon());
                     tangentGroup.getChildren().remove(wp.getTangentLine());
+                    outlineGroup.getChildren().remove(wp.getRobotOutline());
                 }
             }
             update();
         });
         this.spline.addToGroup(this.mainGroup, DEFAULT_SPLINE_SCALE / field.getScale());
-        this.mainGroup.getChildren().addAll(this.iconGroup, this.tangentGroup);
+        this.mainGroup.getChildren().addAll(this.iconGroup, this.tangentGroup, this.outlineGroup);
         this.waypoints.addAll(points);
 
         update();
@@ -145,6 +148,7 @@ public class WpilibPath extends Path {
         waypoint.getIcon().setScaleX(DEFAULT_CIRCLE_SCALE / field.getScale());
         waypoint.getIcon().setScaleY(DEFAULT_CIRCLE_SCALE / field.getScale());
         waypoint.getTangentLine().setStrokeWidth(DEFAULT_LINE_SCALE / field.getScale());
+        waypoint.getRobotOutline().setStrokeWidth(DEFAULT_LINE_SCALE / field.getScale());
     }
 
     /**

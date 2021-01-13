@@ -1,0 +1,10 @@
+{
+	"game": "2021 Infinite Recharge at Home",
+	"field-image": "field-image.png",
+	"field-corners": {
+		"top-left": [0,0],
+		"bottom-right": [1233, 617]
+	},
+	"field-size": [360, 180],
+	"field-unit": "inches"
+}

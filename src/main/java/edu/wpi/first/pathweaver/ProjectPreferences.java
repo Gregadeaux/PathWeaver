@@ -97,7 +97,7 @@ public class ProjectPreferences {
 	}
 
 	private void setDefaults() {
-		values = new Values("FOOT", "Always Meters", 10.0, 60.0, 2.0, Game.INFINTE_RECHARGE_2020.getName(), null);
+		values = new Values("FOOT", "Always Meters", 10.0, 60.0, 2.0, 28.0, 38.0, Game.INFINTE_RECHARGE_2020.getName(), null);
 		updateValues();
 	}
 
@@ -233,6 +233,8 @@ public class ProjectPreferences {
 		private final double wheelBase;
 		private String gameName;
 		private final String outputDir;
+		private final double robotWidth;
+		private final double robotLength;
 
 		/**
 		 * Constructor for Values of ProjectPreferences.
@@ -251,12 +253,14 @@ public class ProjectPreferences {
 		 *            The directory for the output files
 		 */
 		public Values(String lengthUnit, String exportUnit, double maxVelocity, double maxAcceleration,
-				double wheelBase, String gameName, String outputDir) {
+				double wheelBase, double robotWidth, double robotLength, String gameName, String outputDir) {
 			this.lengthUnit = lengthUnit;
 			this.exportUnit = exportUnit;
 			this.maxVelocity = maxVelocity;
 			this.maxAcceleration = maxAcceleration;
 			this.wheelBase = wheelBase;
+			this.robotWidth = robotWidth;
+			this.robotLength = robotLength;
 			this.gameName = gameName;
 			this.outputDir = outputDir;
 		}
@@ -283,6 +287,14 @@ public class ProjectPreferences {
 
 		public String getGameName() {
 			return gameName;
+		}
+
+		public double getRobotWidth() {
+			return robotWidth;
+		}
+
+		public double getRobotLength() {
+			return robotLength;
 		}
 
 		public String getOutputDir() {
