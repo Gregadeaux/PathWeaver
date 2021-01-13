@@ -63,7 +63,7 @@
 
 .robotOutline {
     -fx-fill: null;
-    -fx-stroke: "lightgray";
+    -fx-stroke: "darkgray";
 }
 
 .tank {
