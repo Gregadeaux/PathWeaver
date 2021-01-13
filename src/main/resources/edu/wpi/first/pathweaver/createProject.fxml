@@ -12,11 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<<<<<<< HEAD
-<VBox fx:id="vBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.first.pathweaver.CreateProjectController">
-=======
 <VBox fx:id="vBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.first.pathweaver.CreateProjectController">
->>>>>>> outline/show-robot
    <children>
       <Label fx:id="title" text="Create Project...">
          <font>
@@ -65,8 +61,8 @@
          <Label fx:id="velocityUnits" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
          <Label fx:id="accelerationUnits" GridPane.columnIndex="2" GridPane.rowIndex="6"/>
          <Label fx:id="wheelBaseUnits" GridPane.columnIndex="2" GridPane.rowIndex="7"/>
-         <Label text="Width of the robot" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-         <Label text="Length of the robot" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+         <Label text="Width of the robot" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+         <Label text="Length of the robot" GridPane.columnIndex="0" GridPane.rowIndex="9" />
          <ButtonBar GridPane.columnIndex="2" GridPane.rowIndex="8">
             <buttons>
                <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancel" text="Cancel"/>
