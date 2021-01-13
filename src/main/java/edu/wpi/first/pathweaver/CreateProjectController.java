@@ -70,6 +70,10 @@ public class CreateProjectController {
 	@FXML
 	private Label wheelBaseLabel;
 	@FXML
+	private TextField robotWidth;
+	@FXML
+	private TextField robotLength;
+	@FXML
 	private Label velocityUnits;
 	@FXML
 	private Label accelerationUnits;
@@ -202,8 +206,10 @@ public class CreateProjectController {
 		double velocityMax = Double.parseDouble(maxVelocity.getText());
 		double accelerationMax = Double.parseDouble(maxAcceleration.getText());
 		double wheelBaseDistance = Double.parseDouble(wheelBase.getText());
+		double robotWidthValue = Double.parseDouble(robotWidth.getText());
+    	double robotLengthValue = Double.parseDouble(robotLength.getText());
 		ProjectPreferences.Values values = new ProjectPreferences.Values(lengthUnit, exportUnit, velocityMax,
-				accelerationMax, wheelBaseDistance, game.getValue().getName(), outputPath);
+				accelerationMax, wheelBaseDistance, robotWidthValue, robotLengthValue, game.getValue().getName(), outputPath);
 		ProjectPreferences prefs = ProjectPreferences.getInstance(directory.getAbsolutePath());
 		prefs.setValues(values);
 		editing = false;
@@ -249,6 +255,8 @@ public class CreateProjectController {
 		maxVelocity.setText(String.valueOf(values.getMaxVelocity()));
 		maxAcceleration.setText(String.valueOf(values.getMaxAcceleration()));
 		wheelBase.setText(String.valueOf(values.getWheelBase()));
+		robotWidth.setText(String.valueOf(values.getRobotWidth()));
+		robotLength.setText(String.valueOf(values.getRobotLength()));
 		editing = true;
 	}
 }

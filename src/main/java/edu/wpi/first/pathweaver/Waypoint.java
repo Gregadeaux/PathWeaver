@@ -10,6 +10,7 @@ import javafx.beans.property.StringProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 
 import javax.measure.Unit;
 import javax.measure.quantity.Length;
@@ -34,6 +35,9 @@ public class Waypoint {
 	private final BooleanProperty reversed = new SimpleBooleanProperty();
 	private final StringProperty name = new SimpleStringProperty("");
 
+
+  private Spline spline;
+  private final Rectangle robotOutline;
 	private final Line tangentLine;
 	private final Polygon icon;
 
@@ -66,6 +70,22 @@ public class Waypoint {
 
 		//Convert from WPILib to JavaFX coords
 		tangentLine.endYProperty().bind(Bindings.createObjectBinding(() -> -getTangentY() + -getY(), tangentY, y));
+
+    double robotWidth = values.getRobotWidth();
+    double robotLength = values.getRobotLength();
+
+    robotOutline = new Rectangle();
+    robotOutline.setHeight(robotWidth);
+    robotOutline.setWidth(robotLength);
+    robotOutline.xProperty().bind(x.subtract(robotLength / 2));
+    robotOutline.yProperty().bind(y.subtract(robotWidth / 2));
+    robotOutline.rotateProperty().bind(
+            Bindings.createObjectBinding(() ->
+                    getTangent() == null ? 0.0 : Math.toDegrees(Math.atan2(getTangent().getY(), getTangent().getX())),
+                    tangentX, tangentY));
+
+    this.spline = new NullSpline();
+    setupDnd();
 	}
 
 	public void enableSubchildSelector(int i) {
@@ -203,6 +223,14 @@ public class Waypoint {
 		this.name.set(name);
 	}
 
+  public void setSpline(Spline spline) {
+    this.spline = spline;
+  }
+
+  public Spline getSpline() {
+    return spline;
+  }
+
 	public DoubleProperty tangentXProperty() {
 		return tangentX;
 	}
@@ -215,6 +243,20 @@ public class Waypoint {
 		tangentX.set(tangentX.get()*-1);
 		tangentY.set(tangentY.get()*-1);
 	}
+
+  private void setupDnd() {
+    icon.setOnDragDetected(event -> {
+      currentWaypoint = this;
+      icon.startDragAndDrop(TransferMode.MOVE)
+          .setContent(Map.of(DataFormats.WAYPOINT, "point"));
+    });
+    tangentLine.setOnDragDetected(event -> {
+      currentWaypoint = this;
+      tangentLine.startDragAndDrop(TransferMode.MOVE)
+          .setContent(Map.of(DataFormats.CONTROL_VECTOR, "vector"));
+    });
+    tangentLine.setOnMouseClicked(this::resetOnDoubleClick);
+  }
 
 	/**
 	 * Converts the unit system of a this Waypoint.
